@@ -1,33 +1,87 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import FilterTutors from "./filtertutors";
 import TutorCardsList from "./tutorcardslist";
 import "./tutorssection.css";
+
 const TutorsSection = () => {
-  const tutors = [
-    {
-      id: 1,
-      name: "Leanne Graham",
-      username: "Bret",
-      email: "Sincere@april.biz",
-      address: {
-        street: "Kulas Light",
-        suite: "Apt. 556",
-        city: "Gwenborough",
-        zipcode: "92998-3874",
-        geo: {
-          lat: "-37.3159",
-          lng: "81.1496"
-        }
-      },
-      phone: "1-770-736-8031 x56442",
-      website: "hildegard.org",
-      company: {
-        name: "Romaguera-Crona",
-        catchPhrase: "Multi-layered client-server neural-net",
-        bs: "harness real-time e-markets"
-      }
+  const tutorsToFetch = 5;
+  const API = "https://jsonplaceholder.typicode.com/users";
+
+  const [sortingBy, setSortingBy] = useState("byname");
+  const [tutors, setTutors] = useState([]);
+  const [currentFilter, setCurrentFilter] = useState("");
+  const [fetchAll, setFetchAll] = useState(false);
+  const [hasFetchedAll, sethasFetchedAll] = useState(false);
+
+  useEffect(() => {
+    function getFromApi(limit = "") {
+      fetch(API + limit)
+        .then(response => {
+          let res = response.json();
+          return res;
+        })
+        .then(data => {
+          if (limit === "") {
+            sethasFetchedAll(true);
+          }
+          return setTutors([...data].sort(compare));
+        });
     }
-  ];
+    if (fetchAll) {
+      getFromApi("");
+    } else {
+      getFromApi("?&_limit=" + tutorsToFetch);
+    }
+    setTutors(tutors.sort(compare));
+  }, [sortingBy, fetchAll]);
+
+  const compare = (a, b) => {
+    if (sortingBy === "byname") {
+      return a.name < b.name ? -1 : 1;
+    }
+    if (sortingBy === "bycity") {
+      return a.address.city < b.address.city ? -1 : 1;
+    }
+  };
+
+  const getFrequentCities = tutors => {
+    let cityFrequency = {};
+    let cities = tutors.map(tutor => tutor.address.city);
+    cities.forEach(city => (cityFrequency[city] = 0));
+    let uniqueCities = cities.filter(city => ++cityFrequency[city] === 1);
+
+    return uniqueCities
+      .sort(function(a, b) {
+        return cityFrequency[b] - cityFrequency[a];
+      })
+      .splice(0, 3);
+  };
+
+  const mostFrequentCities = getFrequentCities(tutors);
+
+  const sortHandler = type => {
+    setSortingBy(type);
+  };
+
+  const setCityFilter = city => {
+    if (currentFilter === city) {
+      setCurrentFilter("");
+    } else {
+      setCurrentFilter(city);
+    }
+  };
+
+  const tutorCardsList = tutors.filter(tutor => {
+    if (currentFilter === "") {
+      return true;
+    }
+    return tutor.address.city === currentFilter;
+  });
+
+  const showAllTutors = () => {
+    setFetchAll(true);
+  };
 
   return (
     <React.Fragment>
@@ -39,11 +93,19 @@ const TutorsSection = () => {
             with you.
           </p>
         </div>
-        <FilterTutors />
+        <FilterTutors
+          cities={mostFrequentCities}
+          sortHandler={sortHandler}
+          setCityFilter={setCityFilter}
+        />
       </div>
       <div className="ui divider breaker" />
       <div className="ui container" style={{ margin: 30 }}>
-        <TutorCardsList tutors={tutors} />
+        <TutorCardsList
+          tutors={tutorCardsList}
+          showAllTutors={showAllTutors}
+          hasFetchedAll={hasFetchedAll}
+        />
       </div>
     </React.Fragment>
   );

@@ -32,4 +32,11 @@
   display: inline-block;
   vertical-align: middle;
   margin: 10px;
+  text-decoration: none;
+  color: black;
+  transition: 0.5s;
+}
+
+#sign-up-link:hover {
+  color: #4183c4;
 }

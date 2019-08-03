@@ -14,7 +14,9 @@ const WelcomeMessage = () => {
             />
           </div>
           <div className="top-right-corner">
-            <p id="sign-up-link">Become a tutor</p>
+            <a href="/" id="sign-up-link">
+              Become a tutor
+            </a>
             <button className="ui button">Sign in</button>
           </div>
         </div>
