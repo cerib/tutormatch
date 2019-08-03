@@ -25,19 +25,19 @@ const FilterTutors = ({ cities, sortHandler, setCityFilter }) => {
         className={`ui button ${activeFilter === city ? "green" : ""}`}
         onClick={() => handleFilterClick(city)}
       >
-        {city}
+        <p>{city}</p>
       </button>
     );
   });
   return (
     <div className="filter-and-sort-menu">
       <div>
-        <span className="filter-button-label">Filter by:</span>
-        <div className="ui buttons filter-buttons">{cityButtons}</div>
+        <p className="filter-button-label">Filter by:</p>
+        <div className="three ui buttons filter-buttons">{cityButtons}</div>
       </div>
       <br />
       <div>
-        <span className="filter-button-label">Sort by: </span>
+        <p className="filter-button-label">Sort by: </p>
         <div className="ui buttons filter-buttons">
           <button
             onClick={() => handleSortClick("byname")}

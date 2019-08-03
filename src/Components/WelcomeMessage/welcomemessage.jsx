@@ -6,12 +6,14 @@ const WelcomeMessage = () => {
       <div className="ui container">
         <div className="navbar">
           <div className="top-left-corner">
-            <img
-              alt="tutormatch logo"
-              src={
-                process.env.PUBLIC_URL + "/assets/images/tutormatch-logo.svg"
-              }
-            />
+            <a href="/">
+              <img
+                alt="tutormatch logo"
+                src={
+                  process.env.PUBLIC_URL + "/assets/images/tutormatch-logo.svg"
+                }
+              />
+            </a>
           </div>
           <div className="top-right-corner">
             <a href="/" id="sign-up-link">

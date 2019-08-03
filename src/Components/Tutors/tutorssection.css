@@ -18,7 +18,7 @@
 .filter-button-label {
   margin-right: 10px;
   margin-left: 30px;
-  font-weight: bold;
+  color: gray;
 }
 
 .filter-buttons {
@@ -27,4 +27,8 @@
 
 #all-tutors-button {
   margin: 50px;
+}
+
+.ui .button p {
+  text-align: center;
 }

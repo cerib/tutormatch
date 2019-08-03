@@ -1,6 +1,7 @@
 import React from "react";
 
 const TutorCard = ({ name, city, image }) => {
+  //TODO students so far can't be hard-coded
   return (
     <div className="ui card">
       <div className="content">

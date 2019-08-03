@@ -89,7 +89,7 @@ const TutorsSection = () => {
         <div className="tutors-section-description">
           <h2>Our Tutors</h2>
           <p>
-            We have more than 2 tutors from various disciplines ready to match
+            We have more than 10 tutors from various disciplines ready to match
             with you.
           </p>
         </div>
