@@ -25,7 +25,7 @@ const TutorsSection = () => {
           if (limit === "") {
             sethasFetchedAll(true);
           }
-          return setTutors([...data].sort(compare));
+          return setTutors([...data]);
         });
     }
     if (fetchAll) {
@@ -33,17 +33,7 @@ const TutorsSection = () => {
     } else {
       getFromApi("?&_limit=" + tutorsToFetch);
     }
-    setTutors(tutors.sort(compare));
   }, [sortingBy, fetchAll]);
-
-  const compare = (a, b) => {
-    if (sortingBy === "byname") {
-      return a.name < b.name ? -1 : 1;
-    }
-    if (sortingBy === "bycity") {
-      return a.address.city < b.address.city ? -1 : 1;
-    }
-  };
 
   const getFrequentCities = tutors => {
     let cityFrequency = {};
@@ -105,6 +95,7 @@ const TutorsSection = () => {
           tutors={tutorCardsList}
           showAllTutors={showAllTutors}
           hasFetchedAll={hasFetchedAll}
+          sortingBy={sortingBy}
         />
       </div>
     </React.Fragment>

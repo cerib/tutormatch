@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from "react";
 import TutorCard from "./tutorcard";
 
-const TutorCardsList = ({ tutors, showAllTutors, hasFetchedAll }) => {
+const TutorCardsList = ({
+  tutors,
+  showAllTutors,
+  hasFetchedAll,
+  sortingBy
+}) => {
   const placeholderImage =
     process.env.PUBLIC_URL + "/assets/images/user-photo.jpg";
 
   const [fetchClicked, setFetchClicked] = useState(false);
+
+  const compare = (a, b) => {
+    if (sortingBy === "byname") {
+      return a.name < b.name ? -1 : 1;
+    }
+    if (sortingBy === "bycity") {
+      return a.address.city < b.address.city ? -1 : 1;
+    }
+  };
 
   useEffect(() => {
     if (hasFetchedAll) {
@@ -15,7 +29,8 @@ const TutorCardsList = ({ tutors, showAllTutors, hasFetchedAll }) => {
     }
   }, [hasFetchedAll]);
 
-  const tutorCards = tutors.map(tutor => {
+  const sortedTutors = tutors.sort(compare);
+  const tutorCards = sortedTutors.map(tutor => {
     return (
       <TutorCard
         key={tutor.id}
